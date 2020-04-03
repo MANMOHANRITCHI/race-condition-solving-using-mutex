@@ -1,0 +1,29 @@
+#include<pthread.h>
+#include<stdio.h>
+#include <mutex> 
+std::mutex mtx; 
+define MAX RESOURCES 5
+int available_resources = MAX RESOURCES;
+
+int decrease_count(int count)
+{   mtx.lock();	
+    if(available_resources < count)
+       { mtx.unlock();
+        return -1;
+        }
+    else{ mtx.lock();
+        available_resources -= count;
+        mtx.unlock();
+        return 0;
+        }
+}
+int increase_count(int count)
+{
+    mtx.lock();
+    if(available_resources + count <= MAX_RESOURCES)
+        available_resources += count;
+    else
+        cout<<"limit exceeded";
+    mtx.unlock();
+    return 0;
+}
